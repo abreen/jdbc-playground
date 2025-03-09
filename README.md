@@ -1,6 +1,6 @@
-# jdbc-review
+# JDBC Playground
 
-A demo Java app for playing with JDBC.
+A simple Java app for playing with JDBC.
 
 - No Java build tools
 - A multi-stage `Dockerfile` that builds the app
