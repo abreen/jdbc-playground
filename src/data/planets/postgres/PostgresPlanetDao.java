@@ -8,7 +8,9 @@ import data.postgres.PostgresDao;
 import java.sql.*;
 import java.util.*;
 
-/** A Postgres-specific DAO for handling planet DTOs */
+/**
+ * A Postgres-specific DAO for handling planet DTOs
+ */
 public class PostgresPlanetDao extends PostgresDao<PlanetDto, String> implements PlanetDao {
   private final Connection cxn;
 

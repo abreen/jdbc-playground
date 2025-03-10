@@ -6,9 +6,11 @@ import data.planets.MoonDto;
 import data.postgres.PostgresDao;
 
 import java.sql.*;
-    import java.util.*;
+import java.util.*;
 
-/** A Postgres-specific DAO for handling moon DTOs */
+/**
+ * A Postgres-specific DAO for handling moon DTOs
+ */
 public class PostgresMoonDao extends PostgresDao<MoonDto, String> implements MoonDao {
   private final Connection cxn;
 
@@ -21,7 +23,7 @@ public class PostgresMoonDao extends PostgresDao<MoonDto, String> implements Moo
         SELECT
           moon_name,
           planet_name,
-          orbital_period_days
+          orbital_period_days,
           diameter_km,
           distance_from_planet_km
         FROM moons;
