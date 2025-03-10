@@ -10,6 +10,11 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_HOSTNAME: jdbc-playground-db
     network_mode: service:db
+    stdin_open: true
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     container_name: jdbc-playground-db
     image: postgres:17.4
@@ -19,3 +24,8 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5

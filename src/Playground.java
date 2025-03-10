@@ -1,3 +1,6 @@
+import domain.planets.PlanetDao;
+import ui.PlanetaryDatabase;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +33,8 @@ public class Playground {
     }
 
     System.out.println("ready to go");
+
+    new PlanetaryDatabase(new PlanetDao(cxn)).takeUserInput(System.in);
   }
 
   private static Map<String, String> getSchemaSql() {
