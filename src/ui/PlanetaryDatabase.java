@@ -1,29 +1,26 @@
 package ui;
 
-import data.dao.DataAccessException;
 import domain.planets.Planet;
-import domain.planets.PlanetDao;
+import domain.planets.PlanetRepository;
 
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Scanner;
-import java.util.Set;
 
 public class PlanetaryDatabase {
-  private PlanetDao planetDao;
+  private final PlanetRepository repo;
 
-  public PlanetaryDatabase(PlanetDao planetDao) {
-    this.planetDao = planetDao;
+  public PlanetaryDatabase(PlanetRepository repo) {
+    this.repo = repo;
   }
 
   public void takeUserInput(InputStream in) {
     Scanner s = new Scanner(in);
 
-    Set<Planet> planets;
-    try {
-      planets = planetDao.getAll();
-    } catch (DataAccessException e) {
-      System.err.println("failed to fetch planets");
+    Collection<Planet> planets = repo.findAll();
+    if (planets == null) {
+      System.err.println("failed to get all planets");
       return;
     }
 
@@ -31,7 +28,7 @@ public class PlanetaryDatabase {
 
     planets
         .stream()
-        .sorted(Comparator.comparing(Planet::distanceFromSun))
+        .sorted(Comparator.comparing(Planet::getDistanceFromSun))
         .map(fmt)
         .forEach(System.out::println);
 

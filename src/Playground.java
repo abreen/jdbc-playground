@@ -1,4 +1,8 @@
-import domain.planets.PlanetDao;
+import data.planets.postgres.PostgresMoonDao;
+import data.planets.postgres.PostgresPlanetDao;
+import domain.planets.MoonDtoMapper;
+import domain.planets.PlanetDtoMapper;
+import domain.planets.PlanetRepository;
 import ui.PlanetaryDatabase;
 
 import java.io.IOException;
@@ -34,7 +38,15 @@ public class Playground {
 
     System.out.println("ready to go");
 
-    new PlanetaryDatabase(new PlanetDao(cxn)).takeUserInput(System.in);
+    // TODO use a dependency injection container to manage instances
+    new PlanetaryDatabase(
+        new PlanetRepository(
+            new PostgresPlanetDao(cxn),
+            new PostgresMoonDao(cxn),
+            new PlanetDtoMapper(),
+            new MoonDtoMapper()
+        )
+    ).takeUserInput(System.in);
   }
 
   private static Map<String, String> getSchemaSql() {

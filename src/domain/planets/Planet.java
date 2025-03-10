@@ -1,24 +1,45 @@
 package domain.planets;
 
-import data.entity.Entity;
+import domain.Model;
 
-public record Planet(
-    String name,
-    Double orbitalPeriod,
-    Double dayLength,
-    Double distanceFromSun
-) implements Entity<String> {
+import java.util.Collection;
+
+public class Planet implements Model {
+
+  private String name;
+
+  private double orbitalPeriod;
+
+  private double dayLength;
+
+  private double distanceFromSun;
+
+  private Collection<Moon> moons;
+
+  public Planet(String name, double orbitalPeriod, double dayLength, double distanceFromSun) {
+    this.name = name;
+    this.orbitalPeriod = orbitalPeriod;
+    this.dayLength = dayLength;
+    this.distanceFromSun = distanceFromSun;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getDistanceFromSun() {
+    return distanceFromSun;
+  }
+
+  public void setMoons(Collection<Moon> moons) {
+    this.moons = moons;
+  }
 
   @Override
   public boolean equals(Object obj) {
     return switch (obj) {
-      case Planet other -> getKey().equals(other.getKey());
+      case Planet other -> name.equals(other.getName());
       case null, default -> false;
     };
-  }
-
-  @Override
-  public String getKey() {
-    return name;
   }
 }
