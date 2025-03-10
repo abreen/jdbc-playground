@@ -2,6 +2,8 @@ package ui;
 
 import domain.planets.Planet;
 import domain.planets.PlanetRepository;
+import ui.fmt.DetailedPlanetFormatter;
+import ui.fmt.SimplePlanetFormatter;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -24,21 +26,20 @@ public class PlanetaryDatabase {
       return;
     }
 
-    var fmt = new PlanetFormatter();
-
-    planets
-        .stream()
-        .sorted(Comparator.comparing(Planet::getDistanceFromSun))
-        .map(fmt)
-        .forEach(System.out::println);
+    var simpleFmt = new SimplePlanetFormatter();
+    planets.stream().map(simpleFmt).forEach(System.out::println);
 
     System.out.print("planet or moon name (q to quit): ");
 
+    var detailedFmt = new DetailedPlanetFormatter();
+
     while (s.hasNextLine()) {
-      String line = s.nextLine();
-      if (line.trim().equalsIgnoreCase("q")) {
+      String line = s.nextLine().trim();
+      if (line.equalsIgnoreCase("q")) {
         break;
       }
+
+      System.out.println(repo.findByName(line).map(detailedFmt).orElse("no results"));
 
       System.out.print("planet or moon name: ");
     }

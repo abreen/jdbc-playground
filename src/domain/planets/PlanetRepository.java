@@ -6,7 +6,9 @@ import data.planets.PlanetDao;
 import domain.Repository;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 
 public class PlanetRepository implements Repository<Planet> {
 
@@ -35,26 +37,30 @@ public class PlanetRepository implements Repository<Planet> {
     try {
       return planetSource.fetchAll().stream()
           .map(planetMapper::toModel)
-          .map(p -> {
-            try {
-              p.setMoons(
-                  moonSource.fetchAllByPlanetName(p.getName())
-                      .stream()
-                      .map(moonMapper::toModel)
-                      .toList()
-              );
-              return p;
-            } catch (DataAccessException e) {
-              System.err.println("failed to get moons for planet: " + p);
-              System.err.println(e);
-              return null;
-            }
-          })
+          .map(this::fetchAndSetMoonsForPlanet)
           .filter(Objects::nonNull)
           .toList();
     } catch (DataAccessException e) {
       System.err.println("failed to get all planets");
-      System.err.println(e);
+      return Collections.emptyList();
+    }
+  }
+
+  public Optional<Planet> findByName(String planetName) {
+    try {
+      return planetSource.fetchOne(planetName).map(planetMapper::toModel).map(this::fetchAndSetMoonsForPlanet);
+    } catch (DataAccessException e) {
+      System.err.println("failed to get a planet: " + planetName);
+      return Optional.empty();
+    }
+  }
+
+  private Planet fetchAndSetMoonsForPlanet(Planet planet) {
+    try {
+      planet.setMoons(moonSource.fetchAllByPlanetName(planet.getName()).stream().map(moonMapper::toModel).toList());
+      return planet;
+    } catch (DataAccessException e) {
+      System.err.println("failed to get moons for planet: " + planet);
       return null;
     }
   }

@@ -6,16 +6,32 @@ public class Moon implements Model {
 
   private String name;
 
-  private double orbitalPeriod;
+  private double orbitalPeriodDays;
 
-  private double diameter;
+  private double diameterKm;
 
-  private double distanceFromPlanet;
+  private double distanceFromPlanetKm;
 
   public Moon(String name, double orbitalPeriod, double diameter, double distanceFromPlanet) {
     this.name = name;
-    this.orbitalPeriod = orbitalPeriod;
-    this.diameter = diameter;
-    this.distanceFromPlanet = distanceFromPlanet;
+    this.orbitalPeriodDays = orbitalPeriod;
+    this.diameterKm = diameter;
+    this.distanceFromPlanetKm = distanceFromPlanet;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getOrbitalPeriodDays() {
+    return orbitalPeriodDays;
+  }
+
+  public double getDiameterKm() {
+    return diameterKm;
+  }
+
+  public double getDistanceFromPlanetKm() {
+    return distanceFromPlanetKm;
   }
 }
