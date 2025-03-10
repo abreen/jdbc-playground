@@ -31,7 +31,7 @@ public class WebPlanetDao implements PlanetDao {
     this.serviceUri = serviceUri;
   }
 
-  public Optional<PlanetDto> getOne(String key) {
+  public Optional<PlanetDto> fetchOne(String key) {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(serviceUri)
         .POST(HttpRequest.BodyPublishers.noBody())

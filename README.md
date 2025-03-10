@@ -9,6 +9,18 @@ A simple Java app for playing with JDBC.
 
 On startup, the app runs the SQL in `data/` to seed the database.
 
+## How to run
+
+There are at least three ways to run this project:
+
+1. Do `docker compose up` from the command line and use `docker attach jdbc-playground`.
+2. In IntelliJ IDEA, use the Run Configuration called "Docker Compose". You will need to use `docker attach` to
+   interact with the Java app.
+3. In IntelliJ IDEA, if the Postgres DB is already accessible over `localhost:5432`, use the Run Configuration
+   called "Build and run" (useful if you want to use IntelliJ's debugger).
+
+## SQL snippets
+
 ```sql
 SELECT m.*
 FROM planets p
